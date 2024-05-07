@@ -28,10 +28,10 @@ const Weather_card: FunctionComponent<current_weather_State> = ({curr_location,t
         //console.log("weatherState object BEFORE = " + weatherState.curr_location)
         const new_location = e.currentTarget.value;
         let copy = {...weatherState}
-        //copy.curr_location = new_location
-        // console.log("weatherState object AFTER = " + copy.curr_location)
+        copy.curr_location = new_location
+        //console.log("weatherState object AFTER = " + copy.curr_location)
         set_weatherState(copy)
-        //console.log("weatherState object AFTER = " + weatherState.curr_location)
+        console.log("weatherState object AFTER = " + weatherState.curr_location)
         
     };
         
@@ -41,7 +41,7 @@ const Weather_card: FunctionComponent<current_weather_State> = ({curr_location,t
             <option value="London">London</option>
             <option value="Amsterdam">Amsterdam</option>
             <option value="Sydney">Sydney</option>
-            <option value="tri state area">tri_state_area</option>
+            <option value="neverland">neverland</option>
         </Select>
         
         {/* need to pass in the date value from the API query */}
