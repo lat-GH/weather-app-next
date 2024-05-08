@@ -1,5 +1,6 @@
 import React, {FunctionComponent, ChangeEvent, useState } from 'react';
 import { convert_to_Celcius } from '../lib/convert_to_celcius';
+import { query_weather_api } from '../api/query_weather_API'; 
 import { Select } from '@headlessui/react'
 
 interface current_weather_State {
@@ -41,11 +42,11 @@ const Weather_card: FunctionComponent<current_weather_State> = ({curr_location,t
             <option value="London">London</option>
             <option value="Amsterdam">Amsterdam</option>
             <option value="Sydney">Sydney</option>
-            <option value="neverland">neverland</option>
+            <option value="Neverland">Neverland</option>
         </Select>
         
         {/* need to pass in the date value from the API query */}
-        <h2>"Todays date"</h2> 
+        <h2>{query_weather_api("test","neverland").todays_date}</h2> 
         <h1>current location = {weatherState.curr_location}</h1>
 
         <h2>Tempurature = {convert_to_Celcius(weatherState.today_tempurature)} °C</h2>
