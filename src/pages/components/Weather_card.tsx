@@ -1,12 +1,15 @@
-import React, {FunctionComponent, ChangeEvent, useState } from 'react';
+import React, {FunctionComponent, ChangeEvent, useState, useEffect} from 'react';
 import { convert_to_Celcius } from '../lib/convert_to_celcius';
+import { warmer_or_colder_calculator } from '../lib/warmer_or_colder_calculator';
 import { query_weather_api } from '../api/query_weather_API'; 
 import { Select } from '@headlessui/react'
 
 interface current_weather_State {
+    todays_date:string,
     curr_location: string,
     today_tempurature: number,
-    warmer_or_colder: string
+    warmer_or_colder: string,
+    todays_conditions: string
     //add in icon variable when know how best to pass around an image variable
 
 }
@@ -17,12 +20,14 @@ const Weather_card: FunctionComponent<current_weather_State> = ({curr_location,t
     // const [weatherState, set_weatherState] = useState<current_weather_State[]>();
 
     const [weatherState, set_weatherState] = useState<current_weather_State>({
+        todays_date: "default date",
         curr_location : "default_location",
         today_tempurature: 0,
-        warmer_or_colder: "default colder"
+        warmer_or_colder: "default colder",
+        todays_conditions: "default condition"
     
-    });    
-
+    });   
+    
     //this is the fucntion that gets called in the onChange event handeler
     const location_selection = (e: ChangeEvent<HTMLSelectElement>) => {
         //console.log("running event handler = " + e.currentTarget.value)
@@ -35,6 +40,17 @@ const Weather_card: FunctionComponent<current_weather_State> = ({curr_location,t
         console.log("weatherState object AFTER = " + weatherState.curr_location)
         
     };
+
+    useEffect( () => { 
+        let new_api_query = query_weather_api("test", weatherState.curr_location)
+        let copy = {...weatherState}
+        copy.todays_date = new_api_query.todays_date
+        copy.today_tempurature = new_api_query.todays_temperature
+        copy.warmer_or_colder = warmer_or_colder_calculator(new_api_query.todays_temperature, new_api_query.yesterdays_temperature)
+        copy.todays_conditions = new_api_query.todays_conditions
+        set_weatherState(copy)
+
+    }, [weatherState.curr_location]); 
         
     return( 
     <div>
@@ -45,12 +61,12 @@ const Weather_card: FunctionComponent<current_weather_State> = ({curr_location,t
             <option value="Neverland">Neverland</option>
         </Select>
         
-        {/* need to pass in the date value from the API query */}
-        <h2>{query_weather_api("test","neverland").todays_date}</h2> 
+        <h2>{weatherState.todays_date}</h2> 
         <h1>current location = {weatherState.curr_location}</h1>
 
         <h2>Tempurature = {convert_to_Celcius(weatherState.today_tempurature)} °C</h2>
-        <h2>{weatherState.warmer_or_colder}</h2>       
+        <h2>{weatherState.warmer_or_colder}</h2> 
+        <h2>{weatherState.todays_conditions}</h2> 
      
             
     </div>
