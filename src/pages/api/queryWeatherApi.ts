@@ -1,4 +1,5 @@
-// eslint-disable-next-line no-undef
+import { APIResponse } from '../types/types';
+
 function queryWeatherApi(query_type: string, location: string): APIResponse {
   console.log(`in API query with location = ${location}`);
 
