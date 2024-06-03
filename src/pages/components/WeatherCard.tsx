@@ -43,8 +43,11 @@ const WeatherCard: FunctionComponent = () => {
     // console.log('weatherState object AFTER = ' + weatherState.curr_location);
   };
 
+  // these fucntions will get run when the curr_location key of the WatherState object gets changed
   useEffect(() => {
     const newAipQuery = queryWeatherApi('test', weatherState.curr_location);
+    // TODO figure out if its worth creating a copy and rewritng it?
+    // surely its more effective to create a new object and just populate that?
     const copy = { ...weatherState };
     copy.todays_date = newAipQuery.todays_date;
     // TODO move this function call to inside if the api function not here
@@ -55,12 +58,13 @@ const WeatherCard: FunctionComponent = () => {
     );
     copy.todays_conditions = newAipQuery.todays_conditions;
     setWeatherState(copy);
-  }, [weatherState.curr_location]);
+  }, [weatherState.curr_location]); // TODO decipher the warning message?
 
   return (
     <div>
       <Select
         name="location"
+        // TODO be sure that you should be pasing in the object directly?
         value={weatherState.curr_location}
         onChange={locationSelection}
         className="border data-[hover]:shadow data-[focus]:bg-blue-100"

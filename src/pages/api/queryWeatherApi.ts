@@ -1,6 +1,6 @@
 import { APIResponse } from '../types/types';
 
-function queryWeatherApi(query_type: string, location: string): APIResponse {
+function queryWeatherApi(queryType: string, location: string): APIResponse {
   console.log(`in API query with location = ${location}`);
 
   // test case
