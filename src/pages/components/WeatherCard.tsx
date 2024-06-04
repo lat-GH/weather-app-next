@@ -8,7 +8,6 @@ import React, {
 
 import { Select } from '@headlessui/react';
 import warmerOrColder from '../lib/warmerOrColder';
-import convertToCelcius from '../lib/convertToCelcius';
 import queryWeatherApi from '../api/queryWeatherApi';
 
 interface current_weather_State {
@@ -50,8 +49,7 @@ const WeatherCard: FunctionComponent = () => {
     // surely its more effective to create a new object and just populate that?
     const copy = { ...weatherState };
     copy.todays_date = newAipQuery.todays_date;
-    // TODO move this function call to inside if the api function not here
-    copy.today_tempurature = convertToCelcius(newAipQuery.todays_temperature);
+    copy.today_tempurature = newAipQuery.todays_temperature;
     copy.warmer_or_colder = warmerOrColder(
       newAipQuery.todays_temperature,
       newAipQuery.yesterdays_temperature,

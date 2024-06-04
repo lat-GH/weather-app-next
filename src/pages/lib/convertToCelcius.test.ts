@@ -1,6 +1,6 @@
 import convertToCelcius from './convertToCelcius';
 
-const testCases = [
+const testCases: number[][] = [
   [14.0, -10],
   [32, 0],
   [41, 5],
