@@ -1,9 +1,9 @@
 function warmerOrColder(todaysTemp: number, yesterdaysTemp: number): string {
   const difference = todaysTemp - yesterdaysTemp;
   // eslint-disable-next-line no-console
-  console.log(
-    `yesterday = ${yesterdaysTemp} today = ${todaysTemp} differenece = ${difference}`,
-  );
+  // console.log(
+  //   `yesterday = ${yesterdaysTemp} today = ${todaysTemp} differenece = ${difference}`,
+  // );
 
   // same as
   if (difference === 0) {

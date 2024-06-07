@@ -11,10 +11,11 @@ const testCases: (number | string)[][] = [
   [26, 20, 'feels a lot warmer'], // Difference: 6
 ];
 
-describe('Can returne the correct string based on different differences', () => {
-  it('returns the approaite test case result', () => {
-    testCases.forEach(([t, y, s]) => {
-      expect(warmerOrColder(<number>t, <number>y)).toBe(<string>s);
-    });
-  });
+describe('Returns the correct string based on the sifferent differences', () => {
+  it.each(testCases)(
+    'returns the correct warmer or colder string %i & %i = %i',
+    (t, y, s) => {
+      expect(warmerOrColder(<number>t, <number>y)).toBe(s);
+    },
+  );
 });

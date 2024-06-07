@@ -15,9 +15,10 @@ describe('Can convert 32F to 0C', () => {
 });
 
 describe('Can convert a selction of farenhieghts to Celcius', () => {
-  it('returns the appropriate test case result', () => {
-    testCases.forEach(([f, c]) => {
+  it.each(testCases)(
+    'returns the appropriate test case result %iF = %iC',
+    (f, c) => {
       expect(convertToCelcius(f)).toBe(c);
-    });
-  });
+    },
+  );
 });
