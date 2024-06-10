@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 import React, {
-  FunctionComponent,
+  // FunctionComponent,
   ChangeEvent,
   useState,
   useEffect,
@@ -19,7 +19,8 @@ interface current_weather_State {
   // add in icon variable when know how best to pass around an image variable
 }
 
-const WeatherCard: FunctionComponent = () => {
+// const WeatherCard: FunctionComponent = () => {
+export default function WeatherCard() {
   // const [weatherState, set_weatherState] = useState<current_weather_State[]>();
 
   const [weatherState, setWeatherState] = useState<current_weather_State>({
@@ -74,7 +75,7 @@ const WeatherCard: FunctionComponent = () => {
         <option value="Neverland">Neverland</option>
       </Select>
 
-      <h2>{weatherState.todays_date}</h2>
+      <h2 data-testid="date">{weatherState.todays_date}</h2>
       <h1>current location = {weatherState.curr_location}</h1>
 
       <h2>Tempurature = {weatherState.today_tempurature} °C</h2>
@@ -82,6 +83,6 @@ const WeatherCard: FunctionComponent = () => {
       <h2>{weatherState.todays_conditions}</h2>
     </div>
   );
-};
+}
 
-export default WeatherCard;
+// export default WeatherCard;
