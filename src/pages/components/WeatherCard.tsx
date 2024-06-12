@@ -19,7 +19,7 @@ interface current_weather_State {
   // add in icon variable when know how best to pass around an image variable
 }
 
-// const WeatherCard: FunctionComponent = () => {
+// export const WeatherCard: FunctionComponent = () => {
 export default function WeatherCard() {
   // const [weatherState, set_weatherState] = useState<current_weather_State[]>();
 
