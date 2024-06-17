@@ -68,11 +68,14 @@ export default function WeatherCard() {
         onChange={locationSelection}
         className="border data-[hover]:shadow data-[focus]:bg-blue-100"
         aria-label="Selected location"
+        data-testid="dropDown"
       >
+        <option value="">Select location</option>
         <option value="London">London</option>
         <option value="Amsterdam">Amsterdam</option>
         <option value="Sydney">Sydney</option>
         <option value="Neverland">Neverland</option>
+        <option value="foo">bar</option>
       </Select>
 
       <h2 data-testid="date">{weatherState.todays_date}</h2>

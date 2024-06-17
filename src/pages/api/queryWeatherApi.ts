@@ -2,7 +2,7 @@ import { APIResponse } from '../types/types';
 import convertToCelcius from '../lib/convertToCelcius';
 
 function queryWeatherApi(queryType: string, location: string): APIResponse {
-  console.log(`in API query with location = ${location}`);
+  // console.log(`in API query with location = ${location}`);
 
   // test case
   if (location === 'Neverland') {
