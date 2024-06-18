@@ -64,13 +64,13 @@ export default function WeatherCard() {
       <Select
         name="location"
         // TODO be sure that you should be pasing in the object directly?
-        value={weatherState.curr_location}
+        //value={weatherState.curr_location} // TODO learn what this value means? is this supposed to be the default
         onChange={locationSelection}
         className="border data-[hover]:shadow data-[focus]:bg-blue-100"
-        aria-label="Selected location"
-        data-testid="dropDown"
+        // aria-label="Selected location"
+        // data-testid="dropDown"
       >
-        <option value="">Select location</option>
+        <option value="Select a location">Select a location</option>
         <option value="London">London</option>
         <option value="Amsterdam">Amsterdam</option>
         <option value="Sydney">Sydney</option>
