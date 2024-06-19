@@ -10,7 +10,9 @@ export default function Home() {
   return (
     <main>
       {/* <h1>Hello World!</h1> */}
-      <WeatherCard />
+      <div className="weatherDiv">
+        <WeatherCard />
+      </div>
     </main>
   );
 }

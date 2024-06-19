@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* 
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -16,18 +16,35 @@
   }
 }
 
-body {
+/* body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
+  border-style: solid;
+  background-color: rgb(156, 179, 210);
+
+   background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
     )
-    rgb(var(--background-start-rgb));
+    rgb(var(--background-start-rgb)); 
+} */
+
+.weatherDiv {
+  font:
+    20px Arial,
+    sans-serif;
+  line-height: 1.8;
+  background: #eee;
+  padding: 60px;
+  border-style: double;
+  border-width: 5px;
+  border-color: black;
+  margin: 100px;
+  text-align: left;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
-} */
+}
