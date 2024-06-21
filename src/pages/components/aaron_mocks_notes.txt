@@ -1,0 +1,47 @@
+// // "auto mock"
+// jest.mock('../api/queryWeatherApi');
+// // jest.fn()
+
+// function mockWeatherData(city: string) {
+//   return // clever code to return different data based on city
+// }
+
+// const queryMock = jest.fn().mockImplementation((city: string) => {
+//   mockWeatherData(city);
+// }
+
+// spy: a mock that "intercepts" rather than replaces function
+// jest.spyOn('window.location', pathname);
+// window.location.pathname <- jest takes this
+// window.location.href <- jest does not take this
+
+// if new york is selected
+// mock new york as a response
+
+// if london is selected
+// mock london as a response
+  
+
+
+// Why would I mock a function?
+// __mocks__
+// __stubs__
+
+// test that if the user selects an option same value is assigned to the component
+describe('if user selectsa location that location value is also stored in the component', () => {
+  beforeEach(() => {
+    // happens before every test
+  })
+
+  beforeAll(() => {
+    // happens before all tests
+  })
+
+  afterEach(() => {
+    // happens after every test
+    jest.clearAllMocks();
+  })
+
+  afterAll(() => {
+    // only happens once per describe block
+  })

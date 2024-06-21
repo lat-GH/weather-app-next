@@ -12,67 +12,61 @@ async function queryWeatherApi(
     // https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/London?unitGroup=us&include=days&key=AGX6UGDFKCDXBXR42836HWC4L&contentType=json
     const API_key = 'key=AGX6UGDFKCDXBXR42836HWC4L';
 
-    const responseToday = await fetch(
-      `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=us&include=days&${API_key}&contentType=json`,
-    );
-    const dataToday = await responseToday.json();
-
-    const responseYesterday = await fetch(
-      `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/yesterday?unitGroup=us&${API_key}&contentType=json`,
-    );
-    const dataYesterday = await responseYesterday.json();
-
-    // const dataToday = await fetch(
+    // const responseToday = await fetch(
     //   `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=us&include=days&${API_key}&contentType=json`,
-    // )
-    //   .then((response) => {
-    //     if (!response.ok) {
-    //       throw new Error('ERROR WITH API');
-    //     }
-    //     return response.json();
-    //   })
-    //   // .then((data) => console.log(data.days[0]))
-    //   .catch((error) => {
-    //      console.log(
-    //       'there has been an error with the API response calling todays data',
-    //       error.message,
-    //     ),
-    //     return
-    //     {
-    //       location: 'neverland',
-    //       todays_date: '08-05-2024',
-    //       todays_temperature: convertToCelcius(40),
-    //       todays_conditions: 'rain',
-    //       yesterdays_date: '07-05-2024',
-    //       yesterdays_temperature: convertToCelcius(50),
-    //   };
+    // );
+    // const dataToday = await responseToday.json();
 
-    //   }
+    // const responseYesterday = await fetch(
+    //   `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/yesterday?unitGroup=us&${API_key}&contentType=json`,
+    // );
+    // const dataYesterday = await responseYesterday.json();
 
-    //   );
+    // set a default
+    let defaultDataToday = {
+      address: 'DEAFULT ADDRESS',
+      days: [{ datetime: 'DEAFULT DATE', temp: 100, icon: 'DEAFULT ICON' }],
+    };
+
+    let dataToday;
+
+    try {
+      const response = await fetch(
+        `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=us&include=days&${API_key}&contentType=json`,
+      );
+
+      dataToday = response.json();
+      console.log(dataToday);
+    } catch (err) {
+      // use an error management system e.g. Sentry
+      console.error(err);
+      dataToday = defaultDataToday;
+    }
+
+    // const weatherData = transformResponse(dataToday); //TODO
 
     // const dataYesterday = await fetch(
     //   `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/yesterday?unitGroup=us&${API_key}&contentType=json`,
-    // )
-    //   .then((response) => {
-    //     if (!response.ok) {
-    //       throw new Error('ERROR WITH API');
-    //     }
-    //     return response.json();
-    //   })
-    //   .catch((error) =>
-    //     console.log(
-    //       'there has been an error with the API response calling yesterdays data',
-    //       error.message,
-    //     ),
-    //   );
+    // );
+    // .then((response) => {
+    //   if (!response.ok) {
+    //     throw new Error('ERROR WITH API');
+    //   }
+    //   return response.json();
+    // })
+    // .catch((error) =>
+    //   console.log(
+    //     'there has been an error with the API response calling yesterdays data',
+    //     error.message,
+    //   ),
+    // );
 
     //console.log(dataToday);
     //console.log(dataYesterday);
 
     return {
       location: dataToday.address,
-      todays_date: dataToday.days[0].datetime,
+      todays_date: dataToday?.days[0].datetime,
       todays_temperature: convertToCelcius(dataToday.days[0].temp),
       todays_conditions: dataToday.days[0].icon,
       yesterdays_date: dataYesterday.days[0].datetime,
