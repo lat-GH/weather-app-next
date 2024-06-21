@@ -1,29 +1,107 @@
 import { APIResponse } from '../types/types';
 import convertToCelcius from '../lib/convertToCelcius';
+import { error } from 'console';
 
-function queryWeatherApi(queryType: string, location: string): APIResponse {
-  // console.log(`in API query with location = ${location}`);
+async function queryWeatherApi(
+  queryType: string,
+  location: string,
+): Promise<APIResponse> {
+  if (queryType === 'API') {
+    console.log(`in API query with location = ${location}`);
+    //const API_URL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
+    // https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/London?unitGroup=us&include=days&key=AGX6UGDFKCDXBXR42836HWC4L&contentType=json
+    const API_key = 'key=AGX6UGDFKCDXBXR42836HWC4L';
 
-  // test case
-  if (location === 'Neverland') {
+    const responseToday = await fetch(
+      `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=us&include=days&${API_key}&contentType=json`,
+    );
+    const dataToday = await responseToday.json();
+
+    const responseYesterday = await fetch(
+      `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/yesterday?unitGroup=us&${API_key}&contentType=json`,
+    );
+    const dataYesterday = await responseYesterday.json();
+
+    // const dataToday = await fetch(
+    //   `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=us&include=days&${API_key}&contentType=json`,
+    // )
+    //   .then((response) => {
+    //     if (!response.ok) {
+    //       throw new Error('ERROR WITH API');
+    //     }
+    //     return response.json();
+    //   })
+    //   // .then((data) => console.log(data.days[0]))
+    //   .catch((error) => {
+    //      console.log(
+    //       'there has been an error with the API response calling todays data',
+    //       error.message,
+    //     ),
+    //     return
+    //     {
+    //       location: 'neverland',
+    //       todays_date: '08-05-2024',
+    //       todays_temperature: convertToCelcius(40),
+    //       todays_conditions: 'rain',
+    //       yesterdays_date: '07-05-2024',
+    //       yesterdays_temperature: convertToCelcius(50),
+    //   };
+
+    //   }
+
+    //   );
+
+    // const dataYesterday = await fetch(
+    //   `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/yesterday?unitGroup=us&${API_key}&contentType=json`,
+    // )
+    //   .then((response) => {
+    //     if (!response.ok) {
+    //       throw new Error('ERROR WITH API');
+    //     }
+    //     return response.json();
+    //   })
+    //   .catch((error) =>
+    //     console.log(
+    //       'there has been an error with the API response calling yesterdays data',
+    //       error.message,
+    //     ),
+    //   );
+
+    //console.log(dataToday);
+    //console.log(dataYesterday);
+
     return {
-      location: 'neverland',
-      todays_date: '08-05-2024',
-      todays_temperature: convertToCelcius(40),
-      todays_conditions: 'rain',
-      yesterdays_date: '07-05-2024',
-      yesterdays_temperature: convertToCelcius(50),
+      location: dataToday.address,
+      todays_date: dataToday.days[0].datetime,
+      todays_temperature: convertToCelcius(dataToday.days[0].temp),
+      todays_conditions: dataToday.days[0].icon,
+      yesterdays_date: dataYesterday.days[0].datetime,
+      yesterdays_temperature: convertToCelcius(dataYesterday.days[0].temp),
     };
   }
-  // otherwise grab data from API
-  return {
-    location: 'far far away',
-    todays_date: '08-05-2024',
-    todays_temperature: convertToCelcius(82),
-    todays_conditions: 'sun',
-    yesterdays_date: '07-05-2024',
-    yesterdays_temperature: convertToCelcius(80),
-  };
+  // used for testing with some mocked data built in
+  else {
+    if (location === 'Neverland') {
+      // test case
+      return {
+        location: 'neverland',
+        todays_date: '08-05-2024',
+        todays_temperature: convertToCelcius(40),
+        todays_conditions: 'rain',
+        yesterdays_date: '07-05-2024',
+        yesterdays_temperature: convertToCelcius(50),
+      };
+    }
+    // otherwise grab data from API
+    return {
+      location: 'far far away',
+      todays_date: '08-05-2024',
+      todays_temperature: convertToCelcius(82),
+      todays_conditions: 'sun',
+      yesterdays_date: '07-05-2024',
+      yesterdays_temperature: convertToCelcius(80),
+    };
+  }
 }
 
 export default queryWeatherApi;

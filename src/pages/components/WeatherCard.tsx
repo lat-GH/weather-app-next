@@ -20,6 +20,7 @@ interface current_weather_State {
 }
 
 // const WeatherCard: FunctionComponent = () => {
+// TODO understand what the difference between a component and fucntion component is
 export default function WeatherCard() {
   // const [weatherState, set_weatherState] = useState<current_weather_State[]>();
 
@@ -38,29 +39,41 @@ export default function WeatherCard() {
     const newLocation = e.currentTarget.value;
     const copy = { ...weatherState };
     copy.curr_location = newLocation;
-    console.log(`weatherState object AFTER = ${copy.curr_location}`);
+    console.log(`weatherState object COPY = ${copy.curr_location}`);
     setWeatherState(copy);
-    // console.log('weatherState object AFTER = ' + weatherState.curr_location);
+    console.log('weatherState object AFTER = ' + weatherState.curr_location);
   };
 
   // these fucntions will get run when the curr_location key of the WatherState object gets changed
   useEffect(() => {
-    const newAipQuery = queryWeatherApi('test', weatherState.curr_location);
-    // TODO figure out if its worth creating a copy and rewritng it?
-    // surely its more effective to create a new object and just populate that?
-    const copy = { ...weatherState };
-    copy.todays_date = newAipQuery.todays_date;
-    copy.today_tempurature = newAipQuery.todays_temperature;
-    copy.warmer_or_colder = warmerOrColder(
-      newAipQuery.todays_temperature,
-      newAipQuery.yesterdays_temperature,
-    );
-    copy.todays_conditions = newAipQuery.todays_conditions;
-    setWeatherState(copy);
-  }, [weatherState.curr_location]); // TODO decipher the warning message?
+    // console.log('IN USE EFFECT' + weatherState.curr_location);
+
+    const getWeatherData = async () => {
+      // console.log('IN getWeatherData ASYNC FUNCTION');
+      const newAipQuery = await queryWeatherApi(
+        'API',
+        weatherState.curr_location,
+      );
+      // TODO figure out if its worth creating a copy and rewritng it?
+      // surely its more effective to create a new object and just populate that?
+      const copy = { ...weatherState };
+      copy.todays_date = newAipQuery.todays_date;
+      copy.today_tempurature = newAipQuery.todays_temperature;
+      copy.warmer_or_colder = warmerOrColder(
+        newAipQuery.todays_temperature,
+        newAipQuery.yesterdays_temperature,
+      );
+      copy.todays_conditions = newAipQuery.todays_conditions;
+      setWeatherState(copy);
+    };
+    // creating an calling the async function because its depende upon an api
+    getWeatherData();
+  }, [weatherState.curr_location]);
 
   return (
     <div>
+      <h2 data-testid="date">{weatherState.todays_date}</h2>
+
       <Select
         name="location"
         // TODO be sure that you should be pasing in the object directly?
@@ -78,7 +91,6 @@ export default function WeatherCard() {
         <option value="foo">bar</option>
       </Select>
 
-      <h2 data-testid="date">{weatherState.todays_date}</h2>
       <h1>current location = {weatherState.curr_location}</h1>
 
       <h2>Tempurature = {weatherState.today_tempurature} °C</h2>
