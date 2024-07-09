@@ -8,9 +8,10 @@ async function queryWeatherApi(
 ): Promise<APIResponse> {
   if (queryType === 'API') {
     console.log(`in API query with location = ${location}`);
-    //const API_URL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
-    // https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/London?unitGroup=us&include=days&key=AGX6UGDFKCDXBXR42836HWC4L&contentType=json
-    const API_key = 'key=AGX6UGDFKCDXBXR42836HWC4L';
+    // const API_URL =
+    //   'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/';
+    // // https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/London?unitGroup=us&include=days&key=AGX6UGDFKCDXBXR42836HWC4L&contentType=json
+    // const API_key = 'key=AGX6UGDFKCDXBXR42836HWC4L';
 
     // const responseToday = await fetch(
     //   `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=us&include=days&${API_key}&contentType=json`,
@@ -22,47 +23,45 @@ async function queryWeatherApi(
     // );
     // const dataYesterday = await responseYesterday.json();
 
+    // ----------------------------------------------------------------------
+
     // set a default
-    let defaultDataToday = {
+    let defaultData = {
       address: 'DEAFULT ADDRESS',
-      days: [{ datetime: 'DEAFULT DATE', temp: 100, icon: 'DEAFULT ICON' }],
+      days: [{ datetime: 'DEAFULT DATE', temp: 32, icon: 'DEAFULT ICON' }],
     };
 
     let dataToday;
 
+    const API_key = 'key=AGX6UGDFKCDXBXR42836HWC4L';
     try {
       const response = await fetch(
         `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=us&include=days&${API_key}&contentType=json`,
       );
 
-      dataToday = response.json();
-      console.log(dataToday);
+      dataToday = await response.json();
+      //console.log('+++++++++++ DATATODAY = ', dataToday);
     } catch (err) {
       // use an error management system e.g. Sentry
       console.error(err);
-      dataToday = defaultDataToday;
+      //console.log('+++++++++IN THE CATCH');
+      dataToday = defaultData;
     }
 
-    // const weatherData = transformResponse(dataToday); //TODO
+    let dataYesterday;
+    try {
+      const response = await fetch(
+        `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/yesterday?unitGroup=us&include=days&${API_key}&contentType=json`,
+      );
 
-    // const dataYesterday = await fetch(
-    //   `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/yesterday?unitGroup=us&${API_key}&contentType=json`,
-    // );
-    // .then((response) => {
-    //   if (!response.ok) {
-    //     throw new Error('ERROR WITH API');
-    //   }
-    //   return response.json();
-    // })
-    // .catch((error) =>
-    //   console.log(
-    //     'there has been an error with the API response calling yesterdays data',
-    //     error.message,
-    //   ),
-    // );
-
-    //console.log(dataToday);
-    //console.log(dataYesterday);
+      dataYesterday = await response.json();
+      //console.log('+++++++++++ DATATODAY = ', dataToday);
+    } catch (err) {
+      // use an error management system e.g. Sentry
+      console.error(err);
+      //console.log('+++++++++IN THE CATCH');
+      dataYesterday = defaultData;
+    }
 
     return {
       location: dataToday.address,
