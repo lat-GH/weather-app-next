@@ -2,6 +2,37 @@ import { APIResponse } from '../types/types';
 import convertToCelcius from '../lib/convertToCelcius';
 import { error } from 'console';
 
+function APITransformer(
+  //TODO figure out a more rigerous way of handeling the types of the incoming api data than just any?
+  succT: boolean,
+  dataT: any,
+  succY: boolean,
+  dataY: any,
+): APIResponse {
+  //set a default
+  let defaultData = {
+    address: 'DEAFULT ADDRESS',
+    days: [{ datetime: 'DEAFULT DATE', temp: 32, icon: 'DEAFULT ICON' }],
+  };
+  if (!succT) {
+    dataT = defaultData;
+  }
+  if (!succY) {
+    dataY = defaultData;
+  }
+
+  const returnData: APIResponse = {
+    location: dataT.address,
+    todays_date: dataT.days[0].datetime,
+    todays_temperature: convertToCelcius(dataT.days[0].temp),
+    todays_conditions: dataT.days[0].icon,
+    yesterdays_date: dataY.days[0].datetime,
+    yesterdays_temperature: convertToCelcius(dataY.days[0].temp),
+  };
+
+  return returnData;
+}
+
 async function queryWeatherApi(
   queryType: string,
   location: string,
@@ -25,13 +56,8 @@ async function queryWeatherApi(
 
     // ----------------------------------------------------------------------
 
-    // set a default
-    let defaultData = {
-      address: 'DEAFULT ADDRESS',
-      days: [{ datetime: 'DEAFULT DATE', temp: 32, icon: 'DEAFULT ICON' }],
-    };
-
-    let dataToday;
+    let dataToday: object = {};
+    let successfulDataToday = false;
 
     const API_key = 'key=AGX6UGDFKCDXBXR42836HWC4L';
     try {
@@ -40,37 +66,40 @@ async function queryWeatherApi(
       );
 
       dataToday = await response.json();
+      successfulDataToday = true;
       //console.log('+++++++++++ DATATODAY = ', dataToday);
+      // console.log(
+      //   '+++++++++++++++++++++++++++ DataToday type =',
+      //   typeof dataToday,
+      // );
     } catch (err) {
       // use an error management system e.g. Sentry
       console.error(err);
       //console.log('+++++++++IN THE CATCH');
-      dataToday = defaultData;
     }
 
-    let dataYesterday;
+    let dataYesterday: object = {};
+    let successfulDataYesterday = false;
     try {
       const response = await fetch(
         `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/yesterday?unitGroup=us&include=days&${API_key}&contentType=json`,
       );
 
       dataYesterday = await response.json();
+      successfulDataYesterday = true;
       //console.log('+++++++++++ DATATODAY = ', dataToday);
     } catch (err) {
       // use an error management system e.g. Sentry
       console.error(err);
       //console.log('+++++++++IN THE CATCH');
-      dataYesterday = defaultData;
     }
 
-    return {
-      location: dataToday.address,
-      todays_date: dataToday?.days[0].datetime,
-      todays_temperature: convertToCelcius(dataToday.days[0].temp),
-      todays_conditions: dataToday.days[0].icon,
-      yesterdays_date: dataYesterday.days[0].datetime,
-      yesterdays_temperature: convertToCelcius(dataYesterday.days[0].temp),
-    };
+    return APITransformer(
+      successfulDataToday,
+      dataToday,
+      successfulDataYesterday,
+      dataYesterday,
+    );
   }
   // used for testing with some mocked data built in
   else {

@@ -48,6 +48,7 @@ export default function WeatherCard() {
   useEffect(() => {
     // console.log('IN USE EFFECT' + weatherState.curr_location);
 
+    //beacue i need this fucntion to run asynchornoulsy(beacuse it fetches api data), i need to first rcreate it before i can run it
     const getWeatherData = async () => {
       // console.log('IN getWeatherData ASYNC FUNCTION');
       const newAipQuery = await queryWeatherApi(
