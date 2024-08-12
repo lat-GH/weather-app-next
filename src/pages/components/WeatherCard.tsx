@@ -55,18 +55,20 @@ export default function WeatherCard() {
         'API',
         weatherState.curr_location,
       );
-      // TODO figure out if its worth creating a copy and rewritng it?
-      // surely its more effective to create a new object and just populate that?
-      const copy = { ...weatherState };
-      copy.todays_date = newAipQuery.todays_date;
-      copy.today_tempurature = newAipQuery.todays_temperature;
-      copy.warmer_or_colder = warmerOrColder(
-        newAipQuery.todays_temperature,
-        newAipQuery.yesterdays_temperature,
-      );
-      copy.todays_conditions = newAipQuery.todays_conditions;
-      setWeatherState(copy);
+
+      let newState: current_weather_State = {
+        todays_date: newAipQuery.todays_date,
+        curr_location: weatherState.curr_location,
+        today_tempurature: newAipQuery.todays_temperature,
+        warmer_or_colder: warmerOrColder(
+          newAipQuery.todays_temperature,
+          newAipQuery.yesterdays_temperature,
+        ),
+        todays_conditions: newAipQuery.todays_conditions,
+      };
+      setWeatherState(newState);
     };
+
     // creating an calling the async function because its depende upon an api
     getWeatherData();
   }, [weatherState.curr_location]);
