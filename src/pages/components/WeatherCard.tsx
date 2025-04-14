@@ -12,20 +12,14 @@ import useWeatherSateUpdate from '../hooks/useWeatherStateUpdate';
 // const WeatherCard: FunctionComponent = () => {
 // TODO understand what the difference between a function and fucntionComponent is
 export default function WeatherCard() {
-  const [currentLocation, setCurrentLocation] = useState('');
-  //const { weatherState } = useWeatherSateUpdate(currentLocation);
-  const weatherState = {
-    todays_date: 'default date',
-    curr_location: 'default_location',
-    today_tempurature: 0,
-    warmer_or_colder: 'default colder',
-    todays_conditions: 'default condition',
-  };
+  const [currentLocation, setCurrentLocation] = useState('London');
+  //cutsom hook
+  const { weatherState } = useWeatherSateUpdate(currentLocation);
 
   // called in the onChange event handeler
   const locationSelection = (e: ChangeEvent<HTMLSelectElement>) => {
-    //setCurrentLocation(e.currentTarget.value);
-    console.log('locationSelection triggered');
+    setCurrentLocation(e.currentTarget.value);
+    //console.log('locationSelection triggered');
   };
 
   return (
@@ -34,8 +28,8 @@ export default function WeatherCard() {
 
       <Select
         name="location"
-        // TODO be sure that you should be pasing in the object directly?
-        //value={weatherState.curr_location} // TODO learn what this value means? is this supposed to be the default // look up controlled inputs
+        //now it is a controlled input
+        value={currentLocation}
         onChange={locationSelection}
         className="border data-[hover]:shadow data-[focus]:bg-blue-100"
         // aria-label="Selected location"
