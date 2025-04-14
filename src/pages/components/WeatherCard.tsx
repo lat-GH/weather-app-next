@@ -7,71 +7,26 @@ import React, {
 } from 'react';
 
 import { Select } from '@headlessui/react';
-import warmerOrColder from '../lib/warmerOrColder';
-import queryWeatherApi from '../api/queryWeatherApi';
-
-interface current_weather_State {
-  todays_date: string;
-  curr_location: string;
-  today_tempurature: number;
-  warmer_or_colder: string;
-  todays_conditions: string;
-  // add in icon variable when know how best to pass around an image variable
-}
+import useWeatherSateUpdate from '../hooks/useWeatherStateUpdate';
 
 // const WeatherCard: FunctionComponent = () => {
-// TODO understand what the difference between a component and fucntion component is
+// TODO understand what the difference between a function and fucntionComponent is
 export default function WeatherCard() {
-  // const [weatherState, set_weatherState] = useState<current_weather_State[]>();
-
-  const [weatherState, setWeatherState] = useState<current_weather_State>({
+  const [currentLocation, setCurrentLocation] = useState('');
+  //const { weatherState } = useWeatherSateUpdate(currentLocation);
+  const weatherState = {
     todays_date: 'default date',
     curr_location: 'default_location',
     today_tempurature: 0,
     warmer_or_colder: 'default colder',
     todays_conditions: 'default condition',
-  });
+  };
 
   // called in the onChange event handeler
   const locationSelection = (e: ChangeEvent<HTMLSelectElement>) => {
-    // console.log("running event handler = " + e.currentTarget.value)
-    console.log(`weatherState object BEFORE = ${weatherState.curr_location}`);
-    const newLocation = e.currentTarget.value;
-    const copy = { ...weatherState };
-    copy.curr_location = newLocation;
-    console.log(`weatherState object COPY = ${copy.curr_location}`);
-    setWeatherState(copy);
-    console.log('weatherState object AFTER = ' + weatherState.curr_location);
+    //setCurrentLocation(e.currentTarget.value);
+    console.log('locationSelection triggered');
   };
-
-  // these fucntions will get run when the curr_location key of the WatherState object gets changed
-  useEffect(() => {
-    // console.log('IN USE EFFECT' + weatherState.curr_location);
-
-    //beacue i need this fucntion to run asynchornoulsy(beacuse it fetches api data), i need to first rcreate it before i can run it
-    const getWeatherData = async () => {
-      // console.log('IN getWeatherData ASYNC FUNCTION');
-      const newAipQuery = await queryWeatherApi(
-        'API',
-        weatherState.curr_location,
-      );
-
-      let newState: current_weather_State = {
-        todays_date: newAipQuery.todays_date,
-        curr_location: weatherState.curr_location,
-        today_tempurature: newAipQuery.todays_temperature,
-        warmer_or_colder: warmerOrColder(
-          newAipQuery.todays_temperature,
-          newAipQuery.yesterdays_temperature,
-        ),
-        todays_conditions: newAipQuery.todays_conditions,
-      };
-      setWeatherState(newState);
-    };
-
-    // creating an calling the async function because its depende upon an api
-    getWeatherData();
-  }, [weatherState.curr_location]);
 
   return (
     <div>
@@ -80,7 +35,7 @@ export default function WeatherCard() {
       <Select
         name="location"
         // TODO be sure that you should be pasing in the object directly?
-        //value={weatherState.curr_location} // TODO learn what this value means? is this supposed to be the default
+        //value={weatherState.curr_location} // TODO learn what this value means? is this supposed to be the default // look up controlled inputs
         onChange={locationSelection}
         className="border data-[hover]:shadow data-[focus]:bg-blue-100"
         // aria-label="Selected location"

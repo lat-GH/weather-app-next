@@ -2,6 +2,8 @@ import { APIResponse } from '../types/types';
 import convertToCelcius from '../lib/convertToCelcius';
 import { error } from 'console';
 
+// transformer fucntion that is applied to the data returend from the API
+// also generates default data in the case that the api fails/causes an exception
 function APITransformer(
   //TODO figure out a more rigerous way of handeling the types of the incoming api data than just any?
   succT: boolean,
@@ -14,9 +16,11 @@ function APITransformer(
     address: 'DEAFULT ADDRESS',
     days: [{ datetime: 'DEAFULT DATE', temp: 32, icon: 'DEAFULT ICON' }],
   };
+  //today data
   if (!succT) {
     dataT = defaultData;
   }
+  //yesterday data
   if (!succY) {
     dataY = defaultData;
   }
@@ -67,15 +71,9 @@ async function queryWeatherApi(
 
       dataToday = await response.json();
       successfulDataToday = true;
-      //console.log('+++++++++++ DATATODAY = ', dataToday);
-      // console.log(
-      //   '+++++++++++++++++++++++++++ DataToday type =',
-      //   typeof dataToday,
-      // );
     } catch (err) {
       // use an error management system e.g. Sentry
       console.error(err);
-      //console.log('+++++++++IN THE CATCH');
     }
 
     let dataYesterday: object = {};
@@ -87,11 +85,9 @@ async function queryWeatherApi(
 
       dataYesterday = await response.json();
       successfulDataYesterday = true;
-      //console.log('+++++++++++ DATATODAY = ', dataToday);
     } catch (err) {
       // use an error management system e.g. Sentry
       console.error(err);
-      //console.log('+++++++++IN THE CATCH');
     }
 
     return APITransformer(
@@ -101,8 +97,11 @@ async function queryWeatherApi(
       dataYesterday,
     );
   }
+
+  // if the queryType is not set to API
   // used for testing with some mocked data built in
   else {
+    // allows it to test if selecting different locations returns differnt data
     if (location === 'Neverland') {
       // test case
       return {
@@ -114,7 +113,6 @@ async function queryWeatherApi(
         yesterdays_temperature: convertToCelcius(50),
       };
     }
-    // otherwise grab data from API
     return {
       location: 'far far away',
       todays_date: '08-05-2024',

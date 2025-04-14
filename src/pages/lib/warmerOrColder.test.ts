@@ -13,7 +13,7 @@ const testCases: (number | string)[][] = [
 
 describe('Returns the correct string based on the sifferent differences', () => {
   it.each(testCases)(
-    'returns the correct warmer or colder string %i & %i = %i',
+    'returns the correct warmer or colder string %i & %i = %s',
     (t, y, s) => {
       expect(warmerOrColder(<number>t, <number>y)).toBe(s);
     },
