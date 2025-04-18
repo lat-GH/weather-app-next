@@ -8,6 +8,7 @@ import React, {
 
 import { Select } from '@headlessui/react';
 import useWeatherSateUpdate from '../hooks/useWeatherStateUpdate';
+import styles from './weatherCardStyles.module.css';
 
 // const WeatherCard: FunctionComponent = () => {
 // TODO understand what the difference between a function and fucntionComponent is
@@ -23,7 +24,7 @@ export default function WeatherCard() {
   };
 
   return (
-    <div>
+    <div className={styles.weatherDiv}>
       <h2 data-testid="date">{weatherState.todays_date}</h2>
 
       <Select

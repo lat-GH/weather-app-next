@@ -29,20 +29,6 @@
     rgb(var(--background-start-rgb)); 
 } */
 
-.weatherDiv {
-  font:
-    20px Arial,
-    sans-serif;
-  line-height: 1.8;
-  background: #eee;
-  padding: 60px;
-  border-style: double;
-  border-width: 5px;
-  border-color: black;
-  margin: 100px;
-  text-align: left;
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
