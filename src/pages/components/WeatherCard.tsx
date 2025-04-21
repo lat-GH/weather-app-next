@@ -9,6 +9,7 @@ import React, {
 import { Select } from '@headlessui/react';
 import useWeatherSateUpdate from '../hooks/useWeatherStateUpdate';
 import styles from './weatherCardStyles.module.css';
+import WarmerColderDisplay from './WarmerColderDisplay';
 
 // const WeatherCard: FunctionComponent = () => {
 // TODO understand what the difference between a function and fucntionComponent is
@@ -26,7 +27,6 @@ export default function WeatherCard() {
   return (
     <div className={styles.weatherDiv}>
       <h2 data-testid="date">{weatherState.todays_date}</h2>
-
       <Select
         name="location"
         //now it is a controlled input
@@ -43,11 +43,9 @@ export default function WeatherCard() {
         <option value="Neverland">Neverland</option>
         <option value="foo">bar</option>
       </Select>
-
       <h1>current location = {weatherState.curr_location}</h1>
-
       <h2>Tempurature = {weatherState.today_tempurature} °C</h2>
-      <h2>{weatherState.warmer_or_colder}</h2>
+      <WarmerColderDisplay message={weatherState.warmer_or_colder} />
       <h2>{weatherState.todays_conditions}</h2>
     </div>
   );
