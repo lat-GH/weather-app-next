@@ -7,9 +7,9 @@ import React, {
 } from 'react';
 
 import { Select } from '@headlessui/react';
-import useWeatherSateUpdate from '../hooks/useWeatherStateUpdate';
+import useWeatherSateUpdate from '../../hooks/useWeatherStateUpdate';
 import styles from './weatherCardStyles.module.css';
-import WarmerColderDisplay from './WarmerColderDisplay';
+import WarmerColderDisplay from '../warmerColderDisplay/WarmerColderDisplay';
 
 // const WeatherCard: FunctionComponent = () => {
 // TODO understand what the difference between a function and fucntionComponent is

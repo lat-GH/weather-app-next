@@ -1,0 +1,28 @@
+.standardBorder {
+  border-style: solid;
+  border-width: 5px;
+  border-color: yellow;
+  text-align: left;
+  display: inline-block;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.darkBlueBorder {
+  composes: standardBorder;
+  border-color: blue;
+}
+.lightBlueBorder {
+  composes: standardBorder;
+  border-color: rgb(0, 195, 255);
+}
+
+.orangeBorder {
+  composes: standardBorder;
+  border-color: orange;
+}
+
+.redBorder {
+  composes: standardBorder;
+  border-color: red;
+}

@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import React from 'react';
 import { Inter } from 'next/font/google';
-import WeatherCard from './components/WeatherCard';
+import WeatherCard from './components/weatherCard/WeatherCard';
 
 const inter = Inter({ subsets: ['latin'] });
 
