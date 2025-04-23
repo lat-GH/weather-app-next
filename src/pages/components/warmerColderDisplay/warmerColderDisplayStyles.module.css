@@ -9,20 +9,16 @@
 }
 
 .darkBlueBorder {
-  composes: standardBorder;
   border-color: blue;
 }
 .lightBlueBorder {
-  composes: standardBorder;
   border-color: rgb(0, 195, 255);
 }
 
 .orangeBorder {
-  composes: standardBorder;
   border-color: orange;
 }
 
 .redBorder {
-  composes: standardBorder;
   border-color: red;
 }

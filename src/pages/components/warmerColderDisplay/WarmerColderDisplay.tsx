@@ -6,8 +6,9 @@ interface propsInterface {
 }
 
 export default function WarmerColderDisplay({ message }: propsInterface) {
+  //const { message = 'default message' } = props;
   //export default function WarmerColderDisplay() {
-  let borderClass = styles.standardBorder;
+  let borderClass = '';
 
   if (message == 'feels a little bit colder') {
     borderClass = styles.lightBlueBorder;
@@ -20,7 +21,7 @@ export default function WarmerColderDisplay({ message }: propsInterface) {
   }
 
   return (
-    <div className={borderClass}>
+    <div className={`${styles.standardBorder} ${borderClass} `}>
       <h2>{message} than yesterday</h2>
     </div>
   );
