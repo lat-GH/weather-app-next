@@ -1,4 +1,9 @@
-function warmerOrColder(todaysTemp: number, yesterdaysTemp: number): string {
+import { warmerOrColder } from '../types/types';
+
+function warmerOrColderCalc(
+  todaysTemp: number,
+  yesterdaysTemp: number,
+): string {
   const difference = todaysTemp - yesterdaysTemp;
   // eslint-disable-next-line no-console
   // console.log(
@@ -8,22 +13,22 @@ function warmerOrColder(todaysTemp: number, yesterdaysTemp: number): string {
   // same as
   if (difference === 0) {
     // set_tempColour('green')
-    return 'feels the same';
+    return warmerOrColder.Same;
   }
   // colder
   if (difference < 0) {
     // set_tempColour('blue')
     if (difference < -3) {
-      return 'feels a lot colder';
+      return warmerOrColder.LotCold;
     }
-    return 'feels a little bit colder';
+    return warmerOrColder.LilCold;
   }
   // warmer
   // set_tempColour('red')
   if (difference > 3) {
-    return 'feels a lot warmer';
+    return warmerOrColder.LotWarm;
   }
-  return 'feels a little warmer';
+  return warmerOrColder.LilWarm;
 }
 
-export default warmerOrColder;
+export default warmerOrColderCalc;

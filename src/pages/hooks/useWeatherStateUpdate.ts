@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 
-import warmerOrColder from '../lib/warmerOrColder';
+import warmerOrColderCalc from '../lib/warmerOrColderCalc';
 import queryWeatherApi from '../api/queryWeatherApi';
-import { current_weather_State } from '../types/types';
+import { current_weather_State, warmerOrColder } from '../types/types';
 
 export default function useWeatherStateUpdate(currentLocation: string) {
   const [weatherState, setWeatherState] = useState<current_weather_State>({
     todays_date: 'default date',
     curr_location: 'default_location',
     today_tempurature: 0,
-    warmer_or_colder: 'default colder',
+    warmer_or_colder: warmerOrColder.Same,
     todays_conditions: 'default condition',
   });
 
@@ -29,7 +29,7 @@ export default function useWeatherStateUpdate(currentLocation: string) {
         todays_date: newAipQuery.todays_date,
         curr_location: currentLocation,
         today_tempurature: newAipQuery.todays_temperature,
-        warmer_or_colder: warmerOrColder(
+        warmer_or_colder: warmerOrColderCalc(
           newAipQuery.todays_temperature,
           newAipQuery.yesterdays_temperature,
         ),

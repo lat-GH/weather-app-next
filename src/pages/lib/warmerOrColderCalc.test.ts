@@ -1,4 +1,4 @@
-import warmerOrColder from './warmerOrColder';
+import warmerOrColderCalc from './warmerOrColderCalc';
 
 // assigning the array to a union type woth 2 dimensions
 const testCases: (number | string)[][] = [
@@ -15,7 +15,7 @@ describe('Returns the correct string based on the sifferent differences', () => 
   it.each(testCases)(
     'returns the correct warmer or colder string %i & %i = %s',
     (t, y, s) => {
-      expect(warmerOrColder(<number>t, <number>y)).toBe(s);
+      expect(warmerOrColderCalc(<number>t, <number>y)).toBe(s);
     },
   );
 });

@@ -1,3 +1,4 @@
+import { warmerOrColder } from '../../types/types';
 import styles from './warmerColderDisplayStyles.module.css';
 
 // TODO: find out why i need to create an interface, why cant i just pass the props without?
@@ -10,13 +11,13 @@ export default function WarmerColderDisplay({ message }: propsInterface) {
   //export default function WarmerColderDisplay() {
   let borderClass = '';
 
-  if (message == 'feels a little bit colder') {
+  if (message == warmerOrColder.LilCold) {
     borderClass = styles.lightBlueBorder;
-  } else if (message == 'feels a lot colder') {
+  } else if (message == warmerOrColder.LotCold) {
     borderClass = styles.darkBlueBorder;
-  } else if (message == 'feels a little warmer') {
+  } else if (message == warmerOrColder.LilWarm) {
     borderClass = styles.orangeBorder;
-  } else if (message == 'feels a lot warmer') {
+  } else if (message == warmerOrColder.LotWarm) {
     borderClass = styles.redBorder;
   }
 
